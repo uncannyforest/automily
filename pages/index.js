@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import { connectToDatabase } from '../util/mongodb'
 
-export default function Home() {
+export default function Home({ isConnected }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -13,6 +14,12 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+
+        {isConnected ? (
+          <h2>MongoDB Connected</h2>
+        ) : (
+          <h2>Not connected to MongoDB! :(</h2>
+        )}
 
         <p className={styles.description}>
           Get started by editing{' '}
@@ -62,4 +69,14 @@ export default function Home() {
       </footer>
     </div>
   )
+}
+
+export async function getServerSideProps(context) {
+  const { client } = await connectToDatabase()
+
+  const isConnected = await client.isConnected() // Returns true or false
+
+  return {
+    props: { isConnected },
+  }
 }

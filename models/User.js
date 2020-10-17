@@ -1,5 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+
+mongoose.set('debug', true)
+
 // Create Schema
 const UserSchema = new Schema({
   name: {
@@ -19,4 +22,5 @@ const UserSchema = new Schema({
     default: Date.now,
   },
 })
-module.exports = User = mongoose.model('users', UserSchema)
+module.exports = User =
+  mongoose.models.users || mongoose.model('users', UserSchema)

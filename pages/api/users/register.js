@@ -29,9 +29,9 @@ export default async (req, res) => {
     return res.status(400).json(errors)
   }
 
-  const { db } = await connectToDatabase()
+  await connectToDatabase()
 
-  const user = await db.collection('users').findOne({ email: req.body.email })
+  const user = await User.findOne({ email: req.body.email })
   if (user) {
     return res.status(400).json({ email: 'Email already exists' })
   } else {

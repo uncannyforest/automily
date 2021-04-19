@@ -24,3 +24,10 @@ textarea.materialize-textarea {
   margin-top: 8px;
   padding: 0.8rem;
 }
+
+.listedPost {
+  border: 1px solid #808080;
+  margin: 24px auto;
+  border-radius: 6px;
+  max-width: 720px;
+}

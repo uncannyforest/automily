@@ -33,6 +33,14 @@ class Dashboard extends Component {
             </div>
             <div className="col s6">
               <a
+                href="/posts"
+                className="main-button btn btn-large waves-effect waves-light hoverable blue accent-3"
+              >
+                See Posts
+              </a>
+            </div>
+            <div className="col s6">
+              <a
                 href="/create"
                 className="main-button btn btn-large waves-effect waves-light hoverable blue accent-3"
               >

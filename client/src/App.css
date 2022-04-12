@@ -31,3 +31,11 @@ textarea.materialize-textarea {
   border-radius: 6px;
   max-width: 720px;
 }
+
+.titleLink {
+  color: rgba(0, 0, 0, 0.87);
+}
+a[href].titleLink:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 7%;
+}

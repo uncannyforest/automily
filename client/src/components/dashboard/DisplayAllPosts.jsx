@@ -31,10 +31,11 @@ class DisplayAllPosts extends React.Component {
           posts.map((post) => {
             return (
               <Post
-                id={post.id}
-                key={post.id}
+                id={post._id}
+                key={post._id}
                 title={post.title}
                 content={post.content}
+                link={`/posts/${post._id}`}
               />
             )
           })

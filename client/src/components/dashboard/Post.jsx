@@ -2,9 +2,13 @@ import React from 'react'
 
 const Post = (props) => {
   return (
-    <div>
+    <div id={props.id} key={props.key}>
       <article className="listedPost">
-        <h3>{props.title}</h3>
+        <h3>
+          <a href={props.link} className="titleLink">
+            {props.title}
+          </a>
+        </h3>
         <p>{props.content}</p>
       </article>
     </div>

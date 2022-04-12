@@ -15,6 +15,7 @@ import PrivateRoute from './components/private-route/PrivateRoute'
 import Dashboard from './components/dashboard/Dashboard'
 import CreatePost from './components/dashboard/CreatePost'
 import DisplayAllPosts from './components/dashboard/DisplayAllPosts'
+import DisplayPost from './components/dashboard/DisplayPost'
 
 import './App.css'
 
@@ -49,6 +50,7 @@ class App extends Component {
             <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/posts/:postId" component={DisplayPost} />
             <Route exact path="/posts" component={DisplayAllPosts} />
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />

@@ -3,9 +3,9 @@ import React from 'react'
 const Post = (props) => {
   return (
     <div id={props.id} key={props.key}>
-      <article className="listedPost">
+      <article className="listed-post">
         <h3>
-          <a href={props.link} className="titleLink">
+          <a href={props.link} className="title-link">
             {props.title}
           </a>
         </h3>

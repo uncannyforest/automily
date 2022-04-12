@@ -23,6 +23,16 @@ class DisplayAllPosts extends React.Component {
     return (
       <div>
         <h2>All Posts</h2>
+
+        <div className="col s6">
+          <a
+            href="/create"
+            className="main-button btn btn-large waves-effect waves-light hoverable blue accent-3"
+          >
+            Create Post
+          </a>
+        </div>
+
         {!posts.length ? (
           <div>
             <h3>There is nothing to see here!</h3>
@@ -40,15 +50,6 @@ class DisplayAllPosts extends React.Component {
             )
           })
         )}
-
-        <div className="col s6">
-          <a
-            href="/create"
-            className="main-button btn btn-large waves-effect waves-light hoverable blue accent-3"
-          >
-            Create Post
-          </a>
-        </div>
       </div>
     )
   }

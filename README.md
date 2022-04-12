@@ -1,6 +1,8 @@
 ## Running locally
 
-First, run the development server:
+If this is your first time running locally, make sure your IP address is added to the Network Access list in the MongoDB console.
+
+Then run the development server:
 
 ```bash
 npm run dev

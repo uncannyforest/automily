@@ -1,35 +1,27 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
 const path = require('path')
-
-const users = require('./routes/api/users')
-const posts = require('./routes/api/posts')
 
 const app = express()
 
-// Bodyparser middleware
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: false,
   })
 )
-app.use(bodyParser.json())
+app.use(express.json())
 
-// DB Config
 const db = require('./config/keys').mongoURI
 
-// Connect to MongoDB
 mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => console.log('MongoDB successfully connected'))
   .catch((err) => console.log(err))
 
 mongoose.set('debug', true)
+mongoose.set('strictQuery', true)
 
-// Routes
-app.use('/api/users', users)
-app.use('/api/posts', posts)
+app.use('/api', require('./routes'))
 
 app.use(express.static(path.join(__dirname, 'client', 'public')))
 

@@ -1,32 +1,30 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { loginUser } from '../../actions/authActions'
+import { registerUser } from '../../store/auth'
 import classnames from 'classnames'
 
-class Login extends Component {
+class Register extends Component {
   constructor() {
     super()
     this.state = {
+      name: '',
       email: '',
       password: '',
+      password2: '',
       errors: {},
     }
   }
 
   componentDidMount() {
-    // If logged in and user navigates to Login page, should redirect them to dashboard
+    // If logged in and user navigates to Register page, should redirect them to dashboard
     if (this.props.auth.isAuthenticated) {
       this.props.history.push('/dashboard')
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push('/dashboard') // push user to dashboard when they login
-    }
-
     if (nextProps.errors) {
       this.setState({
         errors: nextProps.errors,
@@ -41,12 +39,14 @@ class Login extends Component {
   onSubmit = (e) => {
     e.preventDefault()
 
-    const userData = {
+    const newUser = {
+      name: this.state.name,
       email: this.state.email,
       password: this.state.password,
+      password2: this.state.password2,
     }
 
-    this.props.loginUser(userData) // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
+    this.props.registerUser(newUser, this.props.history)
   }
 
   render() {
@@ -54,7 +54,7 @@ class Login extends Component {
 
     return (
       <div className="container">
-        <div style={{ marginTop: '4rem' }} className="row">
+        <div className="row">
           <div className="col s8 offset-s2">
             <Link to="/" className="btn-flat waves-effect">
               <i className="material-icons left">keyboard_backspace</i> Back to
@@ -62,13 +62,27 @@ class Login extends Component {
             </Link>
             <div className="col s12" style={{ paddingLeft: '11.250px' }}>
               <h4>
-                <b>Login</b> below
+                <b>Register</b> below
               </h4>
               <p className="grey-text text-darken-1">
-                Don't have an account? <Link to="/register">Register</Link>
+                Already have an account? <Link to="/login">Log in</Link>
               </p>
             </div>
             <form noValidate onSubmit={this.onSubmit}>
+              <div className="input-field col s12">
+                <input
+                  onChange={this.onChange}
+                  value={this.state.name}
+                  error={errors.name}
+                  id="name"
+                  type="text"
+                  className={classnames({
+                    invalid: errors.name,
+                  })}
+                />
+                <label htmlFor="name">Name</label>
+                <span className="red-text">{errors.name}</span>
+              </div>
               <div className="input-field col s12">
                 <input
                   onChange={this.onChange}
@@ -76,15 +90,12 @@ class Login extends Component {
                   error={errors.email}
                   id="email"
                   type="email"
-                  className={classnames('', {
-                    invalid: errors.email || errors.emailnotfound,
+                  className={classnames({
+                    invalid: errors.email,
                   })}
                 />
                 <label htmlFor="email">Email</label>
-                <span className="red-text">
-                  {errors.email}
-                  {errors.emailnotfound}
-                </span>
+                <span className="red-text">{errors.email}</span>
               </div>
               <div className="input-field col s12">
                 <input
@@ -93,15 +104,26 @@ class Login extends Component {
                   error={errors.password}
                   id="password"
                   type="password"
-                  className={classnames('', {
-                    invalid: errors.password || errors.passwordincorrect,
+                  className={classnames({
+                    invalid: errors.password,
                   })}
                 />
                 <label htmlFor="password">Password</label>
-                <span className="red-text">
-                  {errors.password}
-                  {errors.passwordincorrect}
-                </span>
+                <span className="red-text">{errors.password}</span>
+              </div>
+              <div className="input-field col s12">
+                <input
+                  onChange={this.onChange}
+                  value={this.state.password2}
+                  error={errors.password2}
+                  id="password2"
+                  type="password"
+                  className={classnames({
+                    invalid: errors.password2,
+                  })}
+                />
+                <label htmlFor="password2">Confirm Password</label>
+                <span className="red-text">{errors.password2}</span>
               </div>
               <div className="col s12" style={{ paddingLeft: '11.250px' }}>
                 <button
@@ -114,7 +136,7 @@ class Login extends Component {
                   type="submit"
                   className="btn btn-large waves-effect waves-light hoverable blue accent-3"
                 >
-                  Login
+                  Sign up
                 </button>
               </div>
             </form>
@@ -125,8 +147,8 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 }
@@ -136,4 +158,4 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 })
 
-export default connect(mapStateToProps, { loginUser })(Login)
+export default connect(mapStateToProps, { registerUser })(withRouter(Register))

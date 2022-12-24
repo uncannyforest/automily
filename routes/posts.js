@@ -1,32 +1,32 @@
 const express = require('express')
 const router = express.Router()
 
-const requireToken = require('./requireToken')
+const { requireToken, validate } = require('./middleware')
 // Load input validation
-const validatePostInput = require('../../validation/post')
+const validatePost = require('../validation/post')
 
 // Load User model
-const Post = require('../../models/Post')
+const Post = require('../models/Post')
 
 // @route POST api/posts/create
 // @desc Create post
 // @access Private
-router.post('/create', requireToken, async (req, res) => {
-  const { errors, isValid } = validatePostInput(req.body)
-  if (!isValid) {
-    return res.status(400).json(errors)
+router.post(
+  '/create',
+  requireToken,
+  validate(validatePost),
+  async (req, res) => {
+    const newPost = new Post({
+      title: req.body.title,
+      content: req.body.content,
+      user: req.user.id,
+    })
+
+    const savedPost = await newPost.save()
+
+    return res.json(savedPost)
   }
-
-  const newPost = new Post({
-    title: req.body.title,
-    content: req.body.content,
-    user: req.user.id,
-  })
-
-  const savedPost = await newPost.save()
-
-  return res.json(savedPost)
-})
+)
 
 // @route GET api/posts/list
 // @desc Return all posts

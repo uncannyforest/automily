@@ -1,11 +1,7 @@
+import jwtDecode from 'jwt-decode'
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import jwt_decode from 'jwt-decode'
-import setAuthToken from './utils/setAuthToken'
-import { setCurrentUser, logoutUser } from './actions/authActions'
-
 import { Provider } from 'react-redux'
-import store from './store'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import Navbar from './components/layout/Navbar'
 import Landing from './components/layout/Landing'
@@ -17,6 +13,10 @@ import CreatePost from './components/dashboard/CreatePost'
 import DisplayAllPosts from './components/dashboard/DisplayAllPosts'
 import DisplayPost from './components/dashboard/DisplayPost'
 
+import setAuthToken from './utils/setAuthToken'
+import store from './store'
+import { setCurrentUser, logoutUser } from './store/auth'
+
 import './App.css'
 
 // Check for token to keep user logged in
@@ -25,7 +25,7 @@ if (localStorage.jwtToken) {
   const token = localStorage.jwtToken
   setAuthToken(token)
   // Decode token and get user info and exp
-  const decoded = jwt_decode(token)
+  const decoded = jwtDecode(token)
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded))
 

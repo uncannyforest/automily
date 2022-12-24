@@ -1,4 +1,9 @@
-import { GET_ERRORS } from '../actions/types'
+const GET_ERRORS = 'GET_ERRORS'
+
+export const getErrors = (errData) => ({
+  type: GET_ERRORS,
+  payload: errData,
+})
 
 const initialState = {}
 

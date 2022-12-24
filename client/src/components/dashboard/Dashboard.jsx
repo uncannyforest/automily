@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { logoutUser } from '../../actions/authActions'
+import { logoutUser } from '../../store/auth'
 
 class Dashboard extends Component {
   onLogoutClick = (e) => {
@@ -63,4 +63,8 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 
-export default connect(mapStateToProps, { logoutUser })(Dashboard)
+const mapDispatchToProps = (dispatch) => ({
+  logoutUser: () => dispatch(logoutUser()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

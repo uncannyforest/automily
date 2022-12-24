@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import Navbar from './components/layout/Navbar'
-import Landing from './components/layout/Landing'
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import PrivateRoute from './components/private-route/PrivateRoute'
@@ -16,8 +15,6 @@ import DisplayPost from './components/dashboard/DisplayPost'
 import setAuthToken from './utils/setAuthToken'
 import store from './store'
 import { setCurrentUser, logoutUser } from './store/auth'
-
-import './App.css'
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -45,13 +42,13 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <div className="App">
+          <div className="app">
             <Navbar auth={this.props.auth} />
-            <Route exact path="/" component={Landing} />
+            <Route exact path="/" component={DisplayAllPosts} />
+            <Route exact path="/posts" component={DisplayAllPosts} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/posts/:postId" component={DisplayPost} />
-            <Route exact path="/posts" component={DisplayAllPosts} />
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/create" component={CreatePost} />

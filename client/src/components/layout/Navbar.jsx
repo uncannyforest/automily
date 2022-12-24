@@ -26,29 +26,19 @@ class Navbar extends Component {
       )
 
     return (
-      <div className="navbar-fixed">
-        <nav className="z-depth-0">
-          <div className="nav-wrapper blue-grey lighten-5">
-            <Link
-              to="/"
-              style={{
-                fontFamily: 'monospace',
-              }}
-              className="col s5 brand-logo center black-text"
-            >
-              <i className="material-icons">code</i>
-              Automily
-            </Link>
+      <nav>
+        <Link
+          to="/"
+          style={{
+            fontFamily: 'monospace',
+          }}
+        >
+          <i className="material-icons">code</i>
+          Automily
+        </Link>
 
-            <ul
-              id="nav-mobile"
-              className="right hide-on-med-and-down nav-elements"
-            >
-              {authButtons}
-            </ul>
-          </div>
-        </nav>
-      </div>
+        <ul>{authButtons}</ul>
+      </nav>
     )
   }
 }

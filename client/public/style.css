@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Petrona:wght@600&display=swap');
+
+:root {
+  --main-color-light: #b8b0d0;
+  --main-color-dark: #3c3848;
+  --highlight-color: #40d0ff;
+  --highlight-color-dark: #006080;
+}
+
+body {
+  margin: 0;
+  font-family: Nunito, 'SF Pro Rounded', 'Varela Round', 'Arial Rounded MT',
+    sans-serif;
+  letter-spacing: 1pt;
+  font-size: 15pt;
+  background-color: var(--main-color-light);
+}
+
+.app {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+/* used for semantic HTML — no special formatting */
+ul {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+article {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 6px 6px 12px #000;
+  background-color: var(--main-color-dark);
+  color: var(--main-color-light);
+  /*  background: linear-gradient(#ecf2f4, #c8d4d8); */
+  margin: 60px auto;
+  max-width: 640px;
+  min-height: 360px;
+  padding: 1px;
+}
+
+a {
+  text-decoration: none;
+  color: var(--highlight-color-dark);
+  font-weight: bold;
+}
+a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 7%;
+}
+article a {
+  font-weight: normal;
+  color: #fff;
+}
+
+h2 {
+  font-family: 'Petrona';
+}

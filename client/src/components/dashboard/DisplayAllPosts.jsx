@@ -22,33 +22,30 @@ class DisplayAllPosts extends React.Component {
 
     return (
       <div>
-        <h2>All Posts</h2>
-
-        <div className="col s6">
-          <a
-            href="/create"
-            className="main-button btn btn-large waves-effect waves-light hoverable blue accent-3"
-          >
-            Create Post
-          </a>
+        <div>
+          <a href="/create">Create Post</a>
         </div>
 
         {!posts.length ? (
           <div>
-            <h3>There is nothing to see here!</h3>
+            <h2>There is nothing to see here!</h2>
           </div>
         ) : (
-          posts.map((post) => {
-            return (
-              <Post
-                id={post._id}
-                key={post._id}
-                title={post.title}
-                content={post.content}
-                link={`/posts/${post._id}`}
-              />
-            )
-          })
+          <ul>
+            {posts.map((post) => {
+              return (
+                <li>
+                  <Post
+                    id={post._id}
+                    key={post._id}
+                    title={post.title}
+                    content={post.content}
+                    link={`/posts/${post._id}`}
+                  />
+                </li>
+              )
+            })}
+          </ul>
         )}
       </div>
     )

@@ -64,7 +64,7 @@ ul {
 
 article {
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   background: linear-gradient(
     var(--main-color-dark-lighter),
     var(--main-color-dark)
@@ -102,7 +102,7 @@ a.button {
     var(--highlight-color-dark-darker)
   );
   color: #fff;
-  border-radius: 8px;
+  border-radius: 12px;
   transition: background 0.25s;
   background-size: 1px 80px;
   background-position: 0 -40px;

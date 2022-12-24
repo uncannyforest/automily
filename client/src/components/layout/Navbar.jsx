@@ -15,7 +15,7 @@ class Navbar extends Component {
       authButtons = (
         <li>
           <a href="#" onClick={this.onLogoutClick} className="button">
-            Logout
+            Log Out
           </a>
         </li>
       )

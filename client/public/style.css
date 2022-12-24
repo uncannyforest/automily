@@ -3,9 +3,11 @@
 :root {
   --main-color-light: #dcd8e8;
   --main-color-dark: #3c3848;
+  --main-color-dark-lighter: #5a546c;
   --highlight-color: #40ffe8;
   --highlight-color-dark-lighter: #00c0a8;
   --highlight-color-dark: #008070;
+  --highlight-color-dark-darker: #006054;
 }
 
 body {
@@ -21,8 +23,7 @@ body {
 }
 
 nav {
-  box-shadow: 0 6px 12px #000;
-  background-color: #b8b0d0;
+  background: linear-gradient(transparent, #b8b0d0);
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   justify-items: right;
@@ -64,8 +65,10 @@ ul {
 article {
   border: none;
   border-radius: 8px;
-  box-shadow: 6px 6px 12px #000;
-  background-color: var(--main-color-dark);
+  background: linear-gradient(
+    var(--main-color-dark-lighter),
+    var(--main-color-dark)
+  );
   color: var(--main-color-light);
   /*  background: linear-gradient(#ecf2f4, #c8d4d8); */
   margin: 60px auto;
@@ -90,15 +93,23 @@ article a {
 
 a.button {
   display: inline-block;
-  padding: 8px 12px;
-  background-color: var(--highlight-color-dark);
+  padding: 0px 12px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  background: linear-gradient(
+    var(--highlight-color-dark-lighter),
+    var(--highlight-color-dark-darker)
+  );
   color: #fff;
   border-radius: 8px;
-  transition: background-color 0.25s;
+  transition: background 0.25s;
+  background-size: 1px 80px;
+  background-position: 0 -40px;
 }
 a.button:hover {
   text-decoration: none;
-  background-color: var(--highlight-color-dark-lighter);
+  background-position: 0 0;
 }
 
 /* Page header, Post title */

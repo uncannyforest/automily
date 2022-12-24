@@ -23,7 +23,9 @@ class DisplayAllPosts extends React.Component {
     return (
       <div>
         <div>
-          <a href="/create">Create Post</a>
+          <a href="/create" className="button">
+            Create Post
+          </a>
         </div>
 
         {!posts.length ? (

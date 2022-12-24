@@ -12,31 +12,37 @@ class Navbar extends Component {
   render() {
     let authButtons
     if (this.props.auth.isAuthenticated)
-      authButtons = <button onClick={this.onLogoutClick}>Logout</button>
+      authButtons = (
+        <li>
+          <a href="#" onClick={this.onLogoutClick} className="button">
+            Logout
+          </a>
+        </li>
+      )
     else
       authButtons = (
         <>
           <li>
-            <Link to="/register">Register</Link>
+            <Link to="/register" className="button">
+              Register
+            </Link>
           </li>
           <li>
-            <Link to="/login">Log In</Link>
+            <Link to="/login" className="button">
+              Log In
+            </Link>
           </li>
         </>
       )
 
     return (
       <nav>
-        <Link
-          to="/"
-          style={{
-            fontFamily: 'monospace',
-          }}
-        >
-          <i className="material-icons">code</i>
-          Automily
-        </Link>
-
+        <h1>
+          <Link to="/">
+            <i className="material-symbols-outlined">smart_toy&#20;</i>
+            Automily
+          </Link>
+        </h1>
         <ul>{authButtons}</ul>
       </nav>
     )

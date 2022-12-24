@@ -42,8 +42,8 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
+          <Navbar auth={this.props.auth} />
           <div className="app">
-            <Navbar auth={this.props.auth} />
             <Route exact path="/" component={DisplayAllPosts} />
             <Route exact path="/posts" component={DisplayAllPosts} />
             <Route exact path="/register" component={Register} />

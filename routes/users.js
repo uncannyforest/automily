@@ -15,22 +15,26 @@ const router = express.Router()
 // @desc Register user
 // @access Public
 router.post('/register', validate(validateRegister), async (req, res) => {
-  const user = await User.findOne({ email: req.body.email })
-  if (user) {
-    return res.status(400).json({ email: 'Email already exists' })
-  } else {
-    const newUser = new User({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-    })
+  try {
+    const user = await User.findOne({ email: req.body.email })
+    if (user) {
+      return res.status(400).json({ email: 'Email already exists' })
+    } else {
+      const newUser = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+      })
 
-    const hash = await bcrypt.hash(newUser.password, 10)
-    newUser.password = hash
+      const hash = await bcrypt.hash(newUser.password, 10)
+      newUser.password = hash
 
-    const savedUser = await newUser.save()
+      const savedUser = await newUser.save()
 
-    return res.json(savedUser)
+      return res.json(savedUser)
+    }
+  } catch (e) {
+    next(e)
   }
 })
 
@@ -38,39 +42,43 @@ router.post('/register', validate(validateRegister), async (req, res) => {
 // @desc Register user
 // @access Public
 router.post('/login', validate(validateLogin), async (req, res) => {
-  const email = req.body.email
-  const password = req.body.password
+  try {
+    const email = req.body.email
+    const password = req.body.password
 
-  // Find user by email
-  const user = await User.findOne({ email })
+    // Find user by email
+    const user = await User.findOne({ email })
 
-  // Check if user exists
-  if (!user) {
-    return res.status(404).json({ emailnotfound: 'Email not found' })
-  }
-
-  // Check password
-  const isMatch = await bcrypt.compare(password, user.password)
-
-  if (isMatch) {
-    const userObj = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
+    // Check if user exists
+    if (!user) {
+      return res.status(404).json({ emailnotfound: 'Email not found' })
     }
 
-    // Sign token
-    const token = jwt.sign(userObj, keys.secretOrKey, {
-      expiresIn: 31556926, // 1 year in seconds
-    })
+    // Check password
+    const isMatch = await bcrypt.compare(password, user.password)
 
-    return res.json({
-      success: true,
-      token: token,
-      user: userObj,
-    })
-  } else {
-    return res.status(400).json({ passwordincorrect: 'Password incorrect' })
+    if (isMatch) {
+      const userObj = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      }
+
+      // Sign token
+      const token = jwt.sign(userObj, keys.secretOrKey, {
+        expiresIn: 31556926, // 1 year in seconds
+      })
+
+      return res.json({
+        success: true,
+        token: token,
+        user: userObj,
+      })
+    } else {
+      return res.status(400).json({ passwordincorrect: 'Password incorrect' })
+    }
+  } catch (e) {
+    next(e)
   }
 })
 

@@ -16,15 +16,19 @@ router.post(
   requireToken,
   validate(validatePost),
   async (req, res) => {
-    const newPost = new Post({
-      title: req.body.title,
-      content: req.body.content,
-      user: req.user.id,
-    })
+    try {
+      const newPost = new Post({
+        title: req.body.title,
+        content: req.body.content,
+        user: req.user.id,
+      })
 
-    const savedPost = await newPost.save()
+      const savedPost = await newPost.save()
 
-    return res.json(savedPost)
+      return res.json(savedPost)
+    } catch (e) {
+      next(e)
+    }
   }
 )
 
@@ -32,21 +36,29 @@ router.post(
 // @desc Return all posts
 // @access Public
 router.get('/list', async (req, res) => {
-  const posts = await Post.find({})
+  try {
+    const posts = await Post.find({})
 
-  return res.json(posts)
+    return res.json(posts)
+  } catch (e) {
+    next(e)
+  }
 })
 
 // @route GET api/posts/:id
 // @desc Get post
 // @access Public
 router.get('/:id', async (req, res) => {
-  const post = await Post.findOne({ _id: req.params.id })
-  if (!post) {
-    return res.status(404).json({ postnotfound: 'Post not found' })
-  }
+  try {
+    const post = await Post.findOne({ _id: req.params.id })
+    if (!post) {
+      return res.status(404).json({ postnotfound: 'Post not found' })
+    }
 
-  return res.json(post)
+    return res.json(post)
+  } catch (e) {
+    next(e)
+  }
 })
 
 module.exports = router

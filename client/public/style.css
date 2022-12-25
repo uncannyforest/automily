@@ -2,12 +2,15 @@
 
 :root {
   --main-color-light: #dcd8e8;
+  --main-color-light-darker: #ccc4dc;
+  --main-color-light-darker-2: #b8b0d0;
   --main-color-dark: #3c3848;
   --main-color-dark-lighter: #5a546c;
   --highlight-color: #40ffe8;
   --highlight-color-dark-lighter: #00c0a8;
   --highlight-color-dark: #008070;
   --highlight-color-dark-darker: #006054;
+  --error-color: #c03000;
 }
 
 body {
@@ -22,8 +25,13 @@ body {
   justify-content: center;
 }
 
+.material-symbols-outlined {
+  font-size: 1.2em;
+  vertical-align: bottom;
+}
+
 nav {
-  background: linear-gradient(transparent, #b8b0d0);
+  background: linear-gradient(transparent, var(--main-color-light-darker-2));
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   justify-items: right;
@@ -42,13 +50,10 @@ h1 a {
   color: #000;
   font-weight: 500;
 }
-h1 .material-symbols-outlined {
-  font-size: 1.2em;
-  vertical-align: bottom;
-}
 
 nav li {
-  margin: 40px;
+  margin: 0 40px 0 0;
+  display: inline;
 }
 
 .app {
@@ -62,19 +67,33 @@ ul {
   margin-block: 0;
 }
 
-article {
+article,
+main {
   border: none;
   border-radius: 12px;
+  margin: 60px auto;
+  max-width: 640px;
+  box-sizing: border-box;
+}
+
+article {
+  padding: 1px;
   background: linear-gradient(
     var(--main-color-dark-lighter),
     var(--main-color-dark)
   );
   color: var(--main-color-light);
   /*  background: linear-gradient(#ecf2f4, #c8d4d8); */
-  margin: 60px auto;
-  max-width: 640px;
   min-height: 360px;
-  padding: 1px;
+}
+
+main {
+  padding: 20px;
+  background: linear-gradient(
+    var(--main-color-light-darker),
+    var(--main-color-light-darker-2)
+  );
+  color: #000;
 }
 
 a {
@@ -91,7 +110,8 @@ article a {
   color: #fff;
 }
 
-a.button {
+a.button,
+button {
   display: inline-block;
   padding: 0px 12px;
   height: 40px;
@@ -106,8 +126,14 @@ a.button {
   transition: background 0.25s;
   background-size: 1px 80px;
   background-position: 0 -40px;
+  border: none;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: bold;
+  letter-spacing: inherit;
 }
-a.button:hover {
+a.button:hover,
+button:hover {
   text-decoration: none;
   background-position: 0 0;
 }
@@ -116,4 +142,51 @@ a.button:hover {
 h2,
 h3 {
   font-family: 'Petrona';
+}
+
+form {
+  display: flex;
+  flex-flow: column wrap;
+  row-gap: 20px;
+}
+
+.input-field {
+  flex: 1;
+}
+.input-field:focus-within {
+  color: var(--highlight-color-dark);
+}
+label {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  display: block;
+  text-align: left;
+}
+textarea,
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+  font-family: inherit;
+  font-size: 1.3em;
+  background-color: transparent;
+  border-width: 0 0 3px;
+  border-radius: 3px;
+  border-color: var(--main-color-dark);
+  box-sizing: border-box;
+  outline: none;
+  width: 100%;
+}
+textarea:focus,
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus {
+  border-color: var(--highlight-color-dark);
+}
+input.invalid {
+  border-color: var(--error-color);
+}
+.angry {
+  font-size: 0.8em;
+  color: var(--error-color);
+  font-weight: bold;
 }

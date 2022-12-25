@@ -23,6 +23,7 @@
     "nodemon": "^2.0.20"
   },
   "prettier": {
+    "jsxSingleQuote": true,
     "semi": false,
     "singleQuote": true
   }

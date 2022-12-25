@@ -14,7 +14,7 @@ class Navbar extends Component {
     if (this.props.auth.isAuthenticated)
       authButtons = (
         <li>
-          <a href="#" onClick={this.onLogoutClick} className="button">
+          <a href='#' onClick={this.onLogoutClick} className='button'>
             Log Out
           </a>
         </li>
@@ -23,13 +23,13 @@ class Navbar extends Component {
       authButtons = (
         <>
           <li>
-            <Link to="/register" className="button">
+            <Link to='/register' className='button'>
               Register
             </Link>
           </li>
           <li>
-            <Link to="/login" className="button">
-              Log In
+            <Link to='/login' className='button'>
+              Log in
             </Link>
           </li>
         </>
@@ -38,8 +38,8 @@ class Navbar extends Component {
     return (
       <nav>
         <h1>
-          <Link to="/">
-            <i className="material-symbols-outlined">smart_toy&#20;</i>
+          <Link to='/'>
+            <i className='material-symbols-outlined'>smart_toy&#20;</i>
             Automily
           </Link>
         </h1>

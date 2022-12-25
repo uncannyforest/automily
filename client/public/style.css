@@ -186,6 +186,7 @@ input.invalid {
   border-color: var(--error-color);
 }
 .angry {
+  min-height: 1.4em;
   font-size: 0.8em;
   color: var(--error-color);
   font-weight: bold;

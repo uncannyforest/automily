@@ -219,8 +219,9 @@ input[type='password']:focus {
 }
 .trick-editor {
   flex-grow: 1;
-  display: grid;
-  grid-template-columns: 1fr 8px 1fr;
+}
+.trick-editor form {
+  height: 100%;
 }
 textarea {
   background-color: var(--main-color-dark);
@@ -229,7 +230,4 @@ textarea {
   outline: none;
   height: 100%;
   font-size: 1em;
-}
-.trick-editor .set {
-  grid-column-start: 3;
 }

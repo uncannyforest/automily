@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import { Allotment } from 'allotment'
 import axios from 'axios'
 import classnames from 'classnames'
+import React, { useState } from 'react'
+
+import 'allotment/dist/style.css'
 
 import Set from '../sets/Set'
 
@@ -36,19 +39,25 @@ const CreatePost = (props) => {
 
   return (
     <div className='trick-editor'>
-      <form onSubmit={onSubmit}>
-        <textarea
-          placeholder=''
-          name='content'
-          id='content'
-          error={errors.content}
-          className={classnames({
-            invalid: errors.content,
-          })}
-          onChange={savePostContentToState}
-        ></textarea>
-      </form>
-      <Set />
+      <Allotment>
+        <Allotment.Pane>
+          <form onSubmit={onSubmit}>
+            <textarea
+              placeholder=''
+              name='content'
+              id='content'
+              error={errors.content}
+              className={classnames({
+                invalid: errors.content,
+              })}
+              onChange={savePostContentToState}
+            ></textarea>
+          </form>
+        </Allotment.Pane>
+        <Allotment.Pane>
+          <Set />
+        </Allotment.Pane>
+      </Allotment>
     </div>
   )
 }

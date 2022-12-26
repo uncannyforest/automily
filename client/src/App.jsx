@@ -42,18 +42,25 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <Navbar auth={this.props.auth} />
-          <div className="app">
-            <Route exact path="/" component={DisplayAllPosts} />
-            <Route exact path="/posts" component={DisplayAllPosts} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/posts/:postId" component={DisplayPost} />
-            <Switch>
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
-              <PrivateRoute exact path="/create" component={CreatePost} />
-            </Switch>
-          </div>
+          <Switch>
+            <PrivateRoute exact path='/create'>
+              <Navbar compact auth={this.props.auth} />
+              <CreatePost />
+            </PrivateRoute>
+            <Route path='*'>
+              <Navbar auth={this.props.auth} />
+              <div className='app'>
+                <Route exact path='/' component={DisplayAllPosts} />
+                <Route exact path='/posts' component={DisplayAllPosts} />
+                <Route exact path='/register' component={Register} />
+                <Route exact path='/login' component={Login} />
+                <Route exact path='/posts/:postId' component={DisplayPost} />
+                <Switch>
+                  <PrivateRoute exact path='/dashboard' component={Dashboard} />
+                </Switch>
+              </div>
+            </Route>
+          </Switch>
         </Router>
       </Provider>
     )

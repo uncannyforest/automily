@@ -23,6 +23,12 @@ body {
   text-align: center;
   align-items: center;
   justify-content: center;
+  height: 100%;
+}
+
+html,
+#root {
+  height: 100%;
 }
 
 .material-symbols-outlined {
@@ -37,18 +43,26 @@ nav {
   justify-items: right;
   align-items: center;
 }
+nav.compact {
+  background: linear-gradient(var(--main-color-dark), #000);
+}
 
 /* Brand name */
 h1 {
   font-family: monospace;
   font-size: 2em;
-  margin-block-start: 0;
-  padding-block-start: 0.67em;
   grid-column-start: 2;
 }
 h1 a {
   color: #000;
   font-weight: 500;
+}
+.compact h1 {
+  font-size: 1.3em;
+  margin: 0;
+}
+.compact h1 a {
+  color: var(--main-color-light);
 }
 
 nav li {
@@ -137,6 +151,12 @@ button:hover {
   text-decoration: none;
   background-position: 0 0;
 }
+.compact a.button,
+.compact button {
+  border-radius: 0;
+  line-height: 30px;
+  height: 30px;
+}
 
 /* Page header, Post title */
 h2,
@@ -162,7 +182,6 @@ label {
   display: block;
   text-align: left;
 }
-textarea,
 input[type='text'],
 input[type='email'],
 input[type='password'] {
@@ -176,13 +195,15 @@ input[type='password'] {
   outline: none;
   width: 100%;
 }
-textarea:focus,
 input[type='text']:focus,
 input[type='email']:focus,
 input[type='password']:focus {
   border-color: var(--highlight-color-dark);
 }
-input.invalid {
+.invalid {
+  color: var(--error-color);
+}
+.invalid input {
   border-color: var(--error-color);
 }
 .angry {
@@ -190,4 +211,25 @@ input.invalid {
   font-size: 0.8em;
   color: var(--error-color);
   font-weight: bold;
+}
+
+#root:has(.trick-editor) {
+  display: flex;
+  flex-flow: column;
+}
+.trick-editor {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 1fr 8px 1fr;
+}
+textarea {
+  background-color: var(--main-color-dark);
+  color: var(--main-color-light);
+  border-width: 0;
+  outline: none;
+  height: 100%;
+  font-size: 1em;
+}
+.trick-editor .set {
+  grid-column-start: 3;
 }

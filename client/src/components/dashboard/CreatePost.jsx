@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import classnames from 'classnames'
 
-import InputField from '../elements/InputField'
+import Set from '../sets/Set'
 
 const CreatePost = (props) => {
   const [title, setTitle] = useState('')
@@ -35,34 +35,21 @@ const CreatePost = (props) => {
   }
 
   return (
-    <main className='new-post'>
-      <h2>Create New Post</h2>
+    <div className='trick-editor'>
       <form onSubmit={onSubmit}>
-        <InputField
-          label='Title'
-          name='title'
-          onChange={savePostTitleToState}
-          errors={[errors.title]}
-        />
-        <div className='labeled-input'>
-          <label htmlFor='content'>Content</label>
-          <textarea
-            placeholder=''
-            name='content'
-            id='content'
-            error={errors.content}
-            className={classnames({
-              invalid: errors.content,
-            })}
-            onChange={savePostContentToState}
-          ></textarea>
-          <div className='angry'>{errors.content}</div>
-        </div>
-        <button className='main-button btn btn-large waves-effect waves-light hoverable blue accent-3'>
-          Save Post
-        </button>
+        <textarea
+          placeholder=''
+          name='content'
+          id='content'
+          error={errors.content}
+          className={classnames({
+            invalid: errors.content,
+          })}
+          onChange={savePostContentToState}
+        ></textarea>
       </form>
-    </main>
+      <Set />
+    </div>
   )
 }
 

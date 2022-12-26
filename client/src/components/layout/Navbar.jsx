@@ -1,3 +1,4 @@
+import classnames from 'classnames'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { logoutUser } from '../../store/auth'
@@ -36,7 +37,7 @@ class Navbar extends Component {
       )
 
     return (
-      <nav>
+      <nav className={classnames({ compact: this.props.compact })}>
         <h1>
           <Link to='/'>
             <i className='material-symbols-outlined'>smart_toy&#20;</i>

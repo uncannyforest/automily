@@ -4,16 +4,17 @@ import React from 'react'
 
 const InputField = (props) => {
   return (
-    <div className='input-field'>
+    <div
+      className={classnames('input-field', {
+        invalid: props.errors.some((e) => e),
+      })}
+    >
       <label htmlFor={props.name}>{props.label}</label>
       <input
         onChange={props.onChange}
         value={props.value}
         id={props.name}
         type={props.type || 'text'}
-        className={classnames('', {
-          invalid: props.errors.some((e) => e),
-        })}
       />
       <div className='angry'>{props.errors.join(' ')}</div>
     </div>

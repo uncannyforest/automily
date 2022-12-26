@@ -1,6 +1,22 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
+import { runTrick } from '../../magic'
+
+const autoResizeCanvas = (canvas) => {
+  canvas.width = canvas.parentNode.clientWidth
+  canvas.height = canvas.parentNode.clientHeight
+
+  const resizeObserver = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      canvas.width = entry.contentBoxSize[0].inlineSize
+      canvas.height = entry.contentBoxSize[0].blockSize
+    }
+  })
+
+  resizeObserver.observe(canvas.parentElement)
+}
+
 class Set extends React.Component {
   constructor(props) {
     super(props)
@@ -9,10 +25,8 @@ class Set extends React.Component {
   }
 
   componentDidMount() {
-    const height = this.canvas.current.parentNode.clientHeight
-    const width = this.canvas.current.parentNode.clientWidth
-    this.canvas.current.setAttribute('height', height + 'px')
-    this.canvas.current.setAttribute('width', width + 'px')
+    autoResizeCanvas(this.canvas.current)
+    runTrick(this.canvas.current.getContext('2d'), () => this.props.trickJs)
   }
 
   render() {

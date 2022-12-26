@@ -231,3 +231,9 @@ textarea {
   height: 100%;
   font-size: 1em;
 }
+.set {
+  height: 100%;
+}
+canvas {
+  display: block;
+}

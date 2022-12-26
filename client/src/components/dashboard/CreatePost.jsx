@@ -8,23 +8,16 @@ import 'allotment/dist/style.css'
 import Set from '../sets/Set'
 
 const CreatePost = (props) => {
-  const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [errors, setErrors] = useState({})
 
-  const savePostTitleToState = function (event) {
-    setTitle(event.target.value)
-    console.log(title)
-  }
-  const savePostContentToState = function (event) {
+  const contentChange = function (event) {
     setContent(event.target.value)
-    console.log(content)
   }
   const onSubmit = function (e) {
     e.preventDefault()
 
     const newPost = {
-      title: title,
       content: content,
     }
 
@@ -50,12 +43,12 @@ const CreatePost = (props) => {
               className={classnames({
                 invalid: errors.content,
               })}
-              onChange={savePostContentToState}
+              onChange={contentChange}
             ></textarea>
           </form>
         </Allotment.Pane>
         <Allotment.Pane>
-          <Set />
+          <Set trickJs={content} />
         </Allotment.Pane>
       </Allotment>
     </div>

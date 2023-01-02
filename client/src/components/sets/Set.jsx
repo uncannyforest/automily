@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import { runTrick } from '../../magic'
+import { trickRunner } from '../../magic'
 
 const autoResizeCanvas = (canvas) => {
   canvas.width = canvas.parentNode.clientWidth
@@ -9,8 +9,8 @@ const autoResizeCanvas = (canvas) => {
 
   const resizeObserver = new ResizeObserver((entries) => {
     for (const entry of entries) {
-      canvas.width = entry.contentBoxSize[0].inlineSize
-      canvas.height = entry.contentBoxSize[0].blockSize
+      canvas.width = Math.round(entry.contentBoxSize[0].inlineSize)
+      canvas.height = Math.round(entry.contentBoxSize[0].blockSize)
     }
   })
 
@@ -22,17 +22,28 @@ class Set extends React.Component {
     super(props)
 
     this.canvas = React.createRef()
+    this.iframe = React.createRef()
   }
 
   componentDidMount() {
     autoResizeCanvas(this.canvas.current)
-    runTrick(this.canvas.current.getContext('2d'), () => this.props.trickJs)
+    this.trick = trickRunner(
+      this.canvas.current.getContext('2d'),
+      this.iframe.current
+    )
+    this.trick.run(this.props.trickJs)
+  }
+
+  componentDidUpdate(oldProps) {
+    if (oldProps.trickJs != this.props.trickJs)
+      this.trick.run(this.props.trickJs)
   }
 
   render() {
     return (
       <div className='set'>
         <canvas ref={this.canvas}></canvas>
+        <iframe ref={this.iframe} height='0'></iframe>
       </div>
     )
   }

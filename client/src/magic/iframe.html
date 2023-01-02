@@ -1,0 +1,17 @@
+<html>
+  <script>
+    const trickJs = () => {
+      ${this.trickJs}
+    }
+    window.addEventListener(
+      'message',
+      (event) => {
+        if (event.origin !== window.origin) return;
+        if (event.data === 'frame') {
+          window.parent.postMessage(trickJs(), window.origin);
+        }
+      },
+      false
+    )
+  </script>
+</html>

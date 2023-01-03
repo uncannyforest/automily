@@ -1,14 +1,53 @@
 <html>
   <script>
-    const trickJs = () => {
-      ${this.trickJs}
+    const drawQueue = [];
+
+    const makeGlobalFunction = (name) => {
+       window[name] = (params) => {
+         drawQueue.push({...params, op: name})
+       }
     }
+
+    // boolean properties
+    let [stationary, abs] = Array(2).fill(true);
+
+    'set ' + // for defaults
+    // see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D for the below
+    'clearRect fillRect strokeRect ' +
+    'fillText strokeText ' +
+    // These move the rabbit (override by setting 'stationary'). Their corresponding
+    // CanvasRenderingContext2D methods append 'to' at the end (except arcPath corresponds to arcTo)
+    'move line bezierCurve quadraticCurve arcPath ' +
+    'arc ellipse rect roundRect ' +
+    'beginPath closePath fill stroke ' + // closePath moves the rabbit to last beginPath
+    'px'. // draw pixel
+    split(' ').forEach(makeGlobalFunction);
+
+    const genTrick = (({ width, height }) => {
+      let frame, setup;
+
+      ${this.trickJs}
+
+      return {
+        frame: frame || (() => {}),
+        setup: setup || (() => {})
+      }
+    })
+
+    let trick = {frame: () => {}};
+
     window.addEventListener(
       'message',
       (event) => {
         if (event.origin !== window.origin) return;
-        if (event.data === 'frame') {
-          window.parent.postMessage(trickJs(), window.origin);
+        if (event.data.type === 'setup') {
+          trick = genTrick(event.data)
+          trick.setup()
+        }
+        if (event.data.type === 'frame') {
+          trick.frame(event.data)
+          window.parent.postMessage(drawQueue, window.origin);
+          drawQueue.length = 0
         }
       },
       false

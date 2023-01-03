@@ -3,7 +3,7 @@ import React from 'react'
 
 import { trickRunner } from '../../magic'
 
-const autoResizeCanvas = (canvas) => {
+const autoResizeCanvas = (canvas, trick) => {
   canvas.width = canvas.parentNode.clientWidth
   canvas.height = canvas.parentNode.clientHeight
 
@@ -12,6 +12,7 @@ const autoResizeCanvas = (canvas) => {
       canvas.width = Math.round(entry.contentBoxSize[0].inlineSize)
       canvas.height = Math.round(entry.contentBoxSize[0].blockSize)
     }
+    if (trick) trick.restart()
   })
 
   resizeObserver.observe(canvas.parentElement)
@@ -26,11 +27,11 @@ class Set extends React.Component {
   }
 
   componentDidMount() {
-    autoResizeCanvas(this.canvas.current)
     this.trick = trickRunner(
       this.canvas.current.getContext('2d'),
       this.iframe.current
     )
+    autoResizeCanvas(this.canvas.current, this.trick)
     this.trick.run(this.props.trickJs)
   }
 

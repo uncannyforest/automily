@@ -1,4 +1,11 @@
 import iframeContent from './iframe.html'
+import { coords, rabbitCoords } from './coords.js'
+import coordsLib from '!raw-loader!./coords.js'
+
+const truncCoordsLib = coordsLib.substring(
+  0,
+  coordsLib.lastIndexOf('\n', coordsLib.lastIndexOf('\n') - 1)
+)
 
 export const trickRunner = (c, iframe) => {
   // transform message API to use promises
@@ -22,26 +29,6 @@ export const trickRunner = (c, iframe) => {
   )
 
   const rabbit = {}
-
-  const coords = (rabbit, input) => {
-    if (input.x === undefined && input / y === undefined)
-      return { x: rabbit.x, y: rabbit.y }
-    if (input.abs) {
-      input = { x: rabbit.x, y: rabbit.y, ...input }
-      return { x: input.x, y: input.y }
-    } else {
-      input = { x: 0, y: 0, ...input }
-      return { x: rabbit.x + input.x, y: rabbit.y + input.y }
-    }
-  }
-  const rabbitCoords = (rabbit, input) => {
-    const tempCoords = coords(rabbit, input)
-    if (!input.stationary) {
-      rabbit.x = tempCoords.x
-      rabbit.y = tempCoords.y
-    }
-    return tempCoords
-  }
 
   const pathOp = (c, rabbit, action, operation) => {
     if (!rabbit.isPathOn) c.beginPath()
@@ -180,10 +167,11 @@ export const trickRunner = (c, iframe) => {
           break
         case 'px': {
           const { x, y } = rabbitCoords(rabbit, action)
+          if (x < 0 || y < 0 || x >= c.canvas.width || y >= c.canvas.height)
+            break
           if (!imageData) {
             imageData = c.getImageData(0, 0, c.canvas.width, c.canvas.height)
           }
-          console.log(x, y)
           let arrayPos = (y * c.canvas.width + x) * 4
           imageData.data[arrayPos] = action.r
           imageData.data[arrayPos + 1] = action.g
@@ -206,7 +194,10 @@ export const trickRunner = (c, iframe) => {
 
   const result = {
     run: (trickJs) => {
-      iframe.srcdoc = iframeContent({ trickJs })
+      iframe.srcdoc = iframeContent({
+        coordsLib: truncCoordsLib,
+        trickJs,
+      })
       result.restart()
       runner()
     },

@@ -1,38 +1,65 @@
 <html>
   <script>
-    const drawQueue = [];
+    ${this.coordsLib}
 
-    const makeGlobalFunction = (name) => {
+    const _drawQueue = [];
+
+    let _defaults = {}
+    let _r = {
+      x: 0,
+      y: 0
+    }
+
+    const _makeGlobalFunction = (name) => {
        window[name] = (params) => {
-         drawQueue.push({...params, op: name})
+         _drawQueue.push({..._defaults, ...params, op: name})
        }
     }
 
-    // boolean properties
-    let [stationary, abs] = Array(2).fill(true);
+    const _makeGlobalMovementFunction = (name) => {
+      window[name] = (params) => {
+        let drawOp = {..._defaults, ...params, op: name}
+        _drawQueue.push(drawOp)
+        rabbitCoords(_r, drawOp)
+      }
+    }
 
-    'set ' + // for defaults
     // see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D for the below
     'clearRect fillRect strokeRect ' +
     'fillText strokeText ' +
+    'arc ellipse rect roundRect ' +
+    'beginPath closePath fill stroke'. // closePath moves the rabbit to last beginPath
+    split(' ').forEach(_makeGlobalFunction);
+
     // These move the rabbit (override by setting 'stationary'). Their corresponding
     // CanvasRenderingContext2D methods append 'to' at the end (except arcPath corresponds to arcTo)
     'move line bezierCurve quadraticCurve arcPath ' +
-    'arc ellipse rect roundRect ' +
-    'beginPath closePath fill stroke ' + // closePath moves the rabbit to last beginPath
     'px'. // draw pixel
-    split(' ').forEach(makeGlobalFunction);
+    split(' ').forEach(_makeGlobalMovementFunction);
 
-    const genTrick = (({ width, height }) => {
-      let frame, setup;
+    const set = (defaults) => {
+      _defaults = {..._defaults, ...defaults}
+    }
+
+    // boolean properties
+    const [stationary, abs] = Array(2).fill(true);
+
+    const getX = () => _r.x
+    const getY = () => _r.y
+
+    const _genTrick = (({ width, height }) => {
+      let frame = (() => {})
+      let setup = (() => {})
 
       ${this.trickJs}
 
-      return {
-        frame: frame || (() => {}),
-        setup: setup || (() => {})
-      }
+      return { frame, setup }
     })
+
+    const _frameWillRun = (data) => {
+      _r.x = data.x
+      _r.y = data.y
+    }
 
     let trick = {frame: () => {}};
 
@@ -41,13 +68,14 @@
       (event) => {
         if (event.origin !== window.origin) return;
         if (event.data.type === 'setup') {
-          trick = genTrick(event.data)
+          trick = _genTrick(event.data)
           trick.setup()
         }
         if (event.data.type === 'frame') {
+          _frameWillRun(event.data)
           trick.frame(event.data)
-          window.parent.postMessage(drawQueue, window.origin);
-          drawQueue.length = 0
+          window.parent.postMessage(_drawQueue, window.origin);
+          _drawQueue.length = 0
         }
       },
       false
